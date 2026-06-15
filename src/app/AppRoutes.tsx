@@ -1,34 +1,79 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import ErrorPage from '../pages/ErrorPage/ErrorPage';
+import Layout from '../components/Layout';
+import React, { Suspense } from 'react';
+import Preloader from '../components/Preloader/Preloader';
+
+const MainPage = React.lazy(() => import('../pages/MainPage/MainPage'));
+const CatalogPage = React.lazy(
+  () => import('../pages/CatalogPage/CatalogPage')
+);
+const ProductPage = React.lazy(
+  () => import('../pages/ProductPage/ProductPage')
+);
+const AboutPage = React.lazy(() => import('../pages/AboutPage/AboutPage'));
+const ContactsPage = React.lazy(
+  () => import('../pages/ContactsPage/ContactsPage')
+);
+const CartPage = React.lazy(() => import('../pages/CartPage/CartPage'));
 
 const router = createBrowserRouter([
   {
     path: '/',
-    // element: <Layout />,
-    // errorElement: <ErrorPage />,
+    element: <Layout />,
+    errorElement: <ErrorPage />,
     children: [
       {
-        path: '/',
-        // element: <MainPage />,
+        index: true,
+        element: (
+          <Suspense fallback={<Preloader />}>
+            <MainPage />
+          </Suspense>
+        ),
       },
       {
-        path: '/catalog',
-        // element: <CatalogPage />,
+        path: 'catalog',
+        element: (
+          <Suspense fallback={<Preloader />}>
+            <CatalogPage />
+          </Suspense>
+        ),
       },
       {
-        path: '/about',
-        // element: <AboutPage />,
+        path: 'catalog/:id',
+        element: (
+          <Suspense fallback={<Preloader />}>
+            <ProductPage />
+          </Suspense>
+        ),
       },
       {
-        path: '/contacts',
-        // element: <ContactsPage />,
+        path: 'about',
+        element: (
+          <Suspense fallback={<Preloader />}>
+            <AboutPage />
+          </Suspense>
+        ),
       },
       {
-        path: '/catalog/:id',
-        // element: <ProductPage />,
+        path: 'contacts',
+        element: (
+          <Suspense fallback={<Preloader />}>
+            <ContactsPage />
+          </Suspense>
+        ),
       },
       {
-        path: '/cart',
-        // element: <CartPage />,
+        path: 'cart',
+        element: (
+          <Suspense fallback={<Preloader />}>
+            <CartPage />
+          </Suspense>
+        ),
+      },
+      {
+        path: '*',
+        element: <ErrorPage />,
       },
     ],
   },
