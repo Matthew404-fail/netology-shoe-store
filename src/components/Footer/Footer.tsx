@@ -1,5 +1,5 @@
 import Navbar from '../Navbar/Navbar';
-import type { NavbarLink } from '../types';
+import type { NavbarLink } from '../../types';
 
 const navbarLinks: NavbarLink[] = [
   { label: 'О магазине', link: '/about' },

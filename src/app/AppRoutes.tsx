@@ -25,19 +25,11 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: (
-          <Suspense fallback={<Preloader />}>
-            <MainPage />
-          </Suspense>
-        ),
+        element: <MainPage />,
       },
       {
         path: 'catalog',
-        element: (
-          <Suspense fallback={<Preloader />}>
-            <CatalogPage />
-          </Suspense>
-        ),
+        element: <CatalogPage isSearchFieldNeeded />,
       },
       {
         path: 'catalog/:id',

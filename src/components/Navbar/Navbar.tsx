@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom';
-import type { NavbarLink } from '../types';
+import type { NavbarLink } from '../../types';
 
 type NavbarProps = {
   navbarLinks: NavbarLink[];

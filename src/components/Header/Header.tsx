@@ -1,5 +1,7 @@
 import Navbar from '../Navbar/Navbar';
-import type { NavbarLink } from '../types';
+import type { NavbarLink } from '../../types';
+import { useAppSelector } from '../../redux/hooks';
+import { Link } from 'react-router-dom';
 
 const navbarLinks: NavbarLink[] = [
   { label: 'Главная', link: '/' },
@@ -9,6 +11,8 @@ const navbarLinks: NavbarLink[] = [
 ];
 
 const Header = () => {
+  const cartItemsCount = useAppSelector((state) => state.order.items.length);
+
   return (
     <header className="container">
       <div className="row">
@@ -29,10 +33,18 @@ const Header = () => {
                     className="header-controls-pic header-controls-search"
                   ></div>
 
-                  <div className="header-controls-pic header-controls-cart">
-                    <div className="header-controls-cart-full">1</div>
+                  <Link
+                    to={'/cart'}
+                    className="header-controls-pic header-controls-cart"
+                  >
+                    {cartItemsCount > 0 && (
+                      <div className="header-controls-cart-full">
+                        {cartItemsCount}
+                      </div>
+                    )}
+
                     <div className="header-controls-cart-menu"></div>
-                  </div>
+                  </Link>
                 </div>
                 <form
                   data-id="search-form"
