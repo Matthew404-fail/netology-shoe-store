@@ -20,9 +20,8 @@ export const fetchCategories = createAsyncThunk(
     try {
       const data = await api.getCategories();
       return [{ id: null, title: 'Все' }, ...data];
-    } catch (err: unknown) {
-      const message =
-        err instanceof Error ? err.message : 'Ошибка загрузки категорий';
+    } catch {
+      const message = 'Произошла ошибка при загрузке категорий';
 
       return rejectWithValue(message);
     }

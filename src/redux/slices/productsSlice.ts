@@ -29,9 +29,8 @@ export const fetchProducts = createAsyncThunk<
 >('products/fetchProducts', async (params, { rejectWithValue }) => {
   try {
     return await api.getProducts(params);
-  } catch (err) {
-    const message =
-      err instanceof Error ? err.message : 'Ошибка загрузки товаров';
+  } catch {
+    const message = 'Произошла ошибка при загрузке товаров';
     return rejectWithValue(message);
   }
 });

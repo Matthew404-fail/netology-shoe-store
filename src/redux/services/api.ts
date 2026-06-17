@@ -13,13 +13,19 @@ export const api = {
    * Хиты продаж
    */
   getTopSales: (): Promise<Product[]> =>
-    fetch(`${BASE_URL}/top-sales`).then((res) => res.json()),
+    fetch(`${BASE_URL}/top-sales`).then((res) => {
+      if (!res.ok) throw { status: res.status };
+      return res.json();
+    }),
 
   /**
    * Список категорий
    */
   getCategories: (): Promise<Category[]> =>
-    fetch(`${BASE_URL}/categories`).then((res) => res.json()),
+    fetch(`${BASE_URL}/categories`).then((res) => {
+      if (!res.ok) throw { status: res.status };
+      return res.json();
+    }),
 
   /**
    * Список товаров
@@ -37,14 +43,20 @@ export const api = {
       url.searchParams.set('q', params.q);
     }
 
-    return fetch(url.toString()).then((res) => res.json());
+    return fetch(url.toString()).then((res) => {
+      if (!res.ok) throw { status: res.status };
+      return res.json();
+    });
   },
 
   /**
    * Получение товара по ID
    */
   getProductById: (id: string): Promise<Product> =>
-    fetch(`${BASE_URL}/items/${id}`).then((res) => res.json()),
+    fetch(`${BASE_URL}/items/${id}`).then((res) => {
+      if (!res.ok) throw { status: res.status };
+      return res.json();
+    }),
 
   /**
    * Оформление заказа

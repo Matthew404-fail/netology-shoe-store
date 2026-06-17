@@ -15,15 +15,23 @@ const initialState: ProductState = {
 };
 
 export const fetchProductById = createAsyncThunk<
-  Product,
+  Product | string,
   string,
   { rejectValue: string }
 >('product/fetchProductById', async (id, { rejectWithValue }) => {
   try {
     return await api.getProductById(id);
   } catch (err) {
-    const message =
-      err instanceof Error ? err.message : 'Ошибка загрузки товара';
+    let message = err instanceof Error ? err.message : 'Ошибка загрузки товара';
+    if (typeof err === 'object' && err !== null && 'status' in err) {
+      const status = err.status;
+      if (typeof status === 'number') {
+        if (status === 404) {
+          message = 'Товар не найден';
+        }
+      }
+    }
+
     return rejectWithValue(message);
   }
 });
@@ -49,10 +57,16 @@ const productSlice = createSlice({
       })
       .addCase(fetchProductById.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.product = action.payload;
+
+        if (typeof action.payload === 'string') {
+          state.product = null;
+        } else {
+          state.product = action.payload;
+        }
       })
       .addCase(fetchProductById.rejected, (state, action) => {
         state.isLoading = false;
+        state.product = null;
         state.error = action.payload ?? 'Неизвестная ошибка';
       });
   },

@@ -64,7 +64,7 @@ const ProductPage = () => {
   }
 
   if (error) {
-    return <span>{error}</span>;
+    return <p>{error}</p>;
   }
 
   return (
