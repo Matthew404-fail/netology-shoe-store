@@ -16,7 +16,7 @@ const CartTableRow = ({
     <tr>
       <td scope="row">{index + 1}</td>
       <td>
-        <Link to={`/products/${orderItem.id}`}>{orderItem.title}</Link>
+        <Link to={`/catalog/${orderItem.id}`}>{orderItem.title}</Link>
       </td>
       <td>{orderItem.size}</td>
       <td>{orderItem.count}</td>

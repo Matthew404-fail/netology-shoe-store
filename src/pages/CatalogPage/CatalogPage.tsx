@@ -15,8 +15,7 @@ const CatalogPage = ({ isSearchFieldNeeded }: CatalogPageProps) => {
   const { products, isProductsLoading, hasMore, searchFieldValue } =
     productsState;
 
-  const { categories, activeCategoryId, categoriesError, isCategoriesLoading } =
-    categoriesState;
+  const { categories, categoriesError, isCategoriesLoading } = categoriesState;
 
   const {
     handleLoadMoreButtonClick,
@@ -27,24 +26,23 @@ const CatalogPage = ({ isSearchFieldNeeded }: CatalogPageProps) => {
   return (
     <section className="catalog">
       <h2 className="text-center">Каталог</h2>
+      {isSearchFieldNeeded && (
+        <SearchField
+          formClassName="catalog-search-form form-inline"
+          value={searchFieldValue}
+          onChange={setSearchFieldValue}
+          onSubmit={handleSearchFieldSubmit}
+        />
+      )}
+      <CatalogCategories
+        categories={categories}
+        error={categoriesError}
+        isLoading={isCategoriesLoading}
+      />
       {products.length === 0 && isProductsLoading ? (
         <Preloader />
       ) : (
         <>
-          {isSearchFieldNeeded && (
-            <SearchField
-              formClassName="catalog-search-form form-inline"
-              value={searchFieldValue}
-              onChange={setSearchFieldValue}
-              onSubmit={handleSearchFieldSubmit}
-            />
-          )}
-          <CatalogCategories
-            categories={categories}
-            activeCategoryId={activeCategoryId}
-            error={categoriesError}
-            isLoading={isCategoriesLoading}
-          />
           <div className="row">
             {products.length === 0 && <CatalogNotFoundMessage />}
             {products.length > 0 &&

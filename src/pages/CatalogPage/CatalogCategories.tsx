@@ -1,20 +1,23 @@
 import CategoryItem from './CategoryItem';
 import Preloader from '../../components/Preloader/Preloader';
 import type { Category } from '../../types';
+import { useSearchParams } from 'react-router-dom';
 
 type CatalogCategoriesProps = {
   categories: Category[];
   isLoading: boolean;
   error: string | null;
-  activeCategoryId: number | null;
 };
 
 const CatalogCategories = ({
   categories,
   error,
   isLoading,
-  activeCategoryId,
 }: CatalogCategoriesProps) => {
+  const [searchParams] = useSearchParams();
+  const urlCategoryId = searchParams.get('categoryId');
+  const activeCategoryId = urlCategoryId ? Number(urlCategoryId) : null;
+
   if (error) {
     return <span>{error}</span>;
   }

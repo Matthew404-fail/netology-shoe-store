@@ -1,4 +1,4 @@
-import TopSales from '../../components/TopSales/TopSales';
+import TopSales from './TopSales';
 import CatalogPage from '../CatalogPage/CatalogPage';
 
 const MainPage = () => {

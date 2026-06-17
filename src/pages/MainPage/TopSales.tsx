@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
-import CatalogCard from '../../pages/CatalogPage/CatalogCard';
+import CatalogCard from '../CatalogPage/CatalogCard';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-import Preloader from '../Preloader/Preloader';
+import Preloader from '../../components/Preloader/Preloader';
 import { fetchTopSales } from '../../redux/slices/topSalesSlice';
 
 const TopSales = () => {

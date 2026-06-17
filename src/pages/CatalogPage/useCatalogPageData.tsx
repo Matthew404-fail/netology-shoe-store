@@ -9,7 +9,6 @@ const OFFSET_MODIFIER = 6;
 
 const useCatalogPageData = () => {
   const dispatch = useAppDispatch();
-  const [searchParams, setSearchParams] = useSearchParams();
   const {
     products,
     isLoading: isProductsLoading,
@@ -23,8 +22,9 @@ const useCatalogPageData = () => {
     isLoading: isCategoriesLoading,
     error: categoriesError,
   } = useAppSelector((state) => state.categories);
-  const urlCategoryId = searchParams.get('categoryId');
-  const activeCategoryId = urlCategoryId ? Number(urlCategoryId) : null;
+
+  const [searchParams, setSearchParams] = useSearchParams();
+  const q = searchParams.get('q');
 
   const [searchFieldValue, setSearchFieldValue] = useState<string>(
     searchParams.get('q') || ''
@@ -80,8 +80,6 @@ const useCatalogPageData = () => {
     [updateUrlParams]
   );
 
-  const q = searchParams.get('q');
-
   useEffect(() => {
     const urlQ = q;
     // Эффект служит для синхронизации значения инпута со строкой поиска
@@ -119,7 +117,6 @@ const useCatalogPageData = () => {
       categories,
       isCategoriesLoading,
       categoriesError,
-      activeCategoryId,
     },
     handlers: {
       updateUrlParams,

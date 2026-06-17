@@ -3,8 +3,8 @@ import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { fetchProductById } from '../../redux/slices/productSlice';
 import Preloader from '../../components/Preloader/Preloader';
-import ProductSizes from '../../components/ProductSizes/ProductSizes';
-import ProductCount from '../../components/ProductCount/ProductCount';
+import ProductSizes from './ProductSizes';
+import ProductCount from './ProductCount';
 import { addToCart } from '../../redux/slices/orderSlice';
 
 const ProductPage = () => {
