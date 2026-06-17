@@ -63,13 +63,17 @@ const productsSlice = createSlice({
         state.isLoading = false;
         const newItems = action.payload;
 
-        if (action.meta.arg.offset && action.meta.arg.offset > 0) {
+        if (
+          action.meta.arg.offset &&
+          action.meta.arg.offset > 0 &&
+          action.meta.arg.offset !== state.currentOffset
+        ) {
           state.products = [...state.products, ...newItems];
         } else {
           state.products = newItems;
         }
 
-        state.currentOffset = (action.meta.arg.offset || 0) + newItems.length;
+        state.currentOffset = action.meta.arg.offset || 0;
         state.hasMore = newItems.length >= 6;
 
         state.activeCategoryId = action.meta.arg.categoryId ?? null;

@@ -1,4 +1,8 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import {
+  createSlice,
+  createAsyncThunk,
+  type PayloadAction,
+} from '@reduxjs/toolkit';
 import type { CreateOrder, OrderItem } from '../../types';
 import { api } from '../services/api';
 
@@ -49,7 +53,7 @@ const orderSlice = createSlice({
   name: 'order',
   initialState,
   reducers: {
-    addToCart: (state, action: { payload: OrderItem }) => {
+    addToCart: (state, action: PayloadAction<OrderItem>) => {
       const newItem = action.payload;
 
       const existingIndex = state.items.findIndex(

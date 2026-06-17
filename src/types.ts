@@ -14,6 +14,12 @@ export type FetchProductsParams = {
   q?: string;
 };
 
+export type UpdateUrlParams = {
+  categoryId?: number | null;
+  q?: string | null;
+  offset?: number | null;
+};
+
 export type ProductSize = {
   size: string;
   available: boolean;

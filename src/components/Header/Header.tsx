@@ -1,7 +1,9 @@
 import Navbar from '../Navbar/Navbar';
 import type { NavbarLink } from '../../types';
 import { useAppSelector } from '../../redux/hooks';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import SearchField from '../SearchField/SearchField';
+import { useCallback, useState } from 'react';
 
 const navbarLinks: NavbarLink[] = [
   { label: 'Главная', link: '/' },
@@ -12,6 +14,26 @@ const navbarLinks: NavbarLink[] = [
 
 const Header = () => {
   const cartItemsCount = useAppSelector((state) => state.order.items.length);
+  const navigate = useNavigate();
+
+  const [searchValue, setSearchValue] = useState<string>('');
+  const [isSearchOpen, setIsSearchOpen] = useState<boolean>(false);
+
+  const handleSearchIconClick = useCallback(() => {
+    if (isSearchOpen) {
+      const trimmedValue = searchValue.trim();
+
+      if (trimmedValue) {
+        navigate(`/catalog?q=${encodeURIComponent(trimmedValue)}`);
+        setSearchValue('');
+        setIsSearchOpen(false);
+      } else {
+        setIsSearchOpen(false);
+      }
+    } else {
+      setIsSearchOpen(true);
+    }
+  }, [isSearchOpen, searchValue, navigate]);
 
   return (
     <header className="container">
@@ -28,10 +50,12 @@ const Header = () => {
               />
               <div>
                 <div className="header-controls-pics">
-                  <div
+                  <button
                     data-id="search-expander"
-                    className="header-controls-pic header-controls-search"
-                  ></div>
+                    type="button"
+                    onClick={handleSearchIconClick}
+                    className="btn header-controls-pic header-controls-search"
+                  ></button>
 
                   <Link
                     to={'/cart'}
@@ -46,12 +70,12 @@ const Header = () => {
                     <div className="header-controls-cart-menu"></div>
                   </Link>
                 </div>
-                <form
-                  data-id="search-form"
-                  className="header-controls-search-form form-inline invisible"
-                >
-                  <input className="form-control" placeholder="Поиск" />
-                </form>
+                <SearchField
+                  formClassName={`header-controls-search-form form-inline ${!isSearchOpen ? 'invisible' : ''}`}
+                  value={searchValue}
+                  onChange={setSearchValue}
+                  onSubmit={handleSearchIconClick}
+                />
               </div>
             </div>
           </nav>

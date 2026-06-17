@@ -12,6 +12,10 @@ const TopSales = () => {
     dispatch(fetchTopSales());
   }, [dispatch]);
 
+  if (!isLoading && items.length === 0) {
+    return null;
+  }
+
   return (
     <section className="top-sales">
       <h2 className="text-center">Хиты продаж!</h2>

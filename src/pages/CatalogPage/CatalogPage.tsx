@@ -1,41 +1,72 @@
-import { useEffect } from 'react';
-import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-import CatalogFilters from './CatalogFilters';
-import { fetchProducts } from '../../redux/slices/productsSlice';
+import CatalogCategories from './CatalogCategories';
 import Preloader from '../../components/Preloader/Preloader';
 import CatalogCard from './CatalogCard';
+import SearchField from '../../components/SearchField/SearchField';
+import useCatalogPageData from './useCatalogPageData';
+import CatalogNotFoundMessage from './CatalogNotFoundMessage';
 
 type CatalogPageProps = {
   isSearchFieldNeeded: boolean;
 };
 
 const CatalogPage = ({ isSearchFieldNeeded }: CatalogPageProps) => {
-  const dispatch = useAppDispatch();
+  const { productsState, categoriesState, handlers } = useCatalogPageData();
 
-  useEffect(() => {
-    dispatch(fetchProducts({}));
-  }, [dispatch]);
+  const { products, isProductsLoading, hasMore, searchFieldValue } =
+    productsState;
 
-  const { products, isLoading } = useAppSelector((state) => state.products);
+  const { categories, activeCategoryId, categoriesError, isCategoriesLoading } =
+    categoriesState;
+
+  const {
+    handleLoadMoreButtonClick,
+    handleSearchFieldSubmit,
+    setSearchFieldValue,
+  } = handlers;
 
   return (
     <section className="catalog">
       <h2 className="text-center">Каталог</h2>
-      {isLoading ? (
+      {products.length === 0 && isProductsLoading ? (
         <Preloader />
       ) : (
         <>
           {isSearchFieldNeeded && (
-            <form className="catalog-search-form form-inline">
-              <input className="form-control" placeholder="Поиск" />
-            </form>
+            <SearchField
+              formClassName="catalog-search-form form-inline"
+              value={searchFieldValue}
+              onChange={setSearchFieldValue}
+              onSubmit={handleSearchFieldSubmit}
+            />
           )}
-          <CatalogFilters />
+          <CatalogCategories
+            categories={categories}
+            activeCategoryId={activeCategoryId}
+            error={categoriesError}
+            isLoading={isCategoriesLoading}
+          />
           <div className="row">
-            {products.map((product) => (
-              <CatalogCard key={product.id} {...product} />
-            ))}
+            {products.length === 0 && <CatalogNotFoundMessage />}
+            {products.length > 0 &&
+              products.map((product) => (
+                <CatalogCard key={product.id} {...product} />
+              ))}
           </div>
+          {hasMore && (
+            <>
+              {isProductsLoading && <Preloader />}
+              <div className="text-center load-more-wrapper">
+                <button
+                  className="btn btn-outline-primary"
+                  type="button"
+                  onClick={handleLoadMoreButtonClick}
+                  disabled={isProductsLoading}
+                >
+                  Загрузить ещё
+                </button>
+              </div>
+            </>
+          )}
         </>
       )}
     </section>

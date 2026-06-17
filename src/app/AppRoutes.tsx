@@ -21,7 +21,12 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: <Layout />,
-    errorElement: <ErrorPage />,
+    errorElement: (
+      <ErrorPage
+        title="Страница не найдена"
+        description="Извините, такая страница не найдена!"
+      />
+    ),
     children: [
       {
         index: true,
@@ -65,7 +70,12 @@ const router = createBrowserRouter([
       },
       {
         path: '*',
-        element: <ErrorPage />,
+        element: (
+          <ErrorPage
+            title="Страница не найдена"
+            description="Извините, такая страница не найдена!"
+          />
+        ),
       },
     ],
   },
