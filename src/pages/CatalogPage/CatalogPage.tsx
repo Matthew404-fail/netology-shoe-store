@@ -12,8 +12,13 @@ type CatalogPageProps = {
 const CatalogPage = ({ isSearchFieldNeeded }: CatalogPageProps) => {
   const { productsState, categoriesState, handlers } = useCatalogPageData();
 
-  const { products, isProductsLoading, hasMore, searchFieldValue } =
-    productsState;
+  const {
+    products,
+    isProductsLoading,
+    hasMore,
+    searchFieldValue,
+    productsError,
+  } = productsState;
 
   const { categories, categoriesError, isCategoriesLoading } = categoriesState;
 
@@ -29,6 +34,8 @@ const CatalogPage = ({ isSearchFieldNeeded }: CatalogPageProps) => {
 
       {products.length === 0 && isProductsLoading ? (
         <Preloader />
+      ) : productsError ? (
+        <p>{productsError}</p>
       ) : (
         <>
           {isSearchFieldNeeded && (
