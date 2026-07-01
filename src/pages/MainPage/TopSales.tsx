@@ -5,12 +5,16 @@ import Preloader from '../../components/Preloader/Preloader';
 import { fetchTopSales } from '../../redux/slices/topSalesSlice';
 
 const TopSales = () => {
-  const { items, isLoading } = useAppSelector((state) => state.topSales);
+  const { items, isLoading, error } = useAppSelector((state) => state.topSales);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(fetchTopSales());
   }, [dispatch]);
+
+  if (error) {
+    return <p>{error}</p>;
+  }
 
   if (!isLoading && items.length === 0) {
     return null;

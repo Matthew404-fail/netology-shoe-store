@@ -25,6 +25,7 @@ const useCatalogPageData = () => {
 
   const [searchParams, setSearchParams] = useSearchParams();
   const q = searchParams.get('q');
+  const categoryId = searchParams.get('categoryId');
 
   const [searchFieldValue, setSearchFieldValue] = useState<string>(
     searchParams.get('q') || ''
@@ -85,7 +86,7 @@ const useCatalogPageData = () => {
     // Эффект служит для синхронизации значения инпута со строкой поиска
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setSearchFieldValue(urlQ || '');
-  }, [q]);
+  }, [q, categoryId]);
 
   useEffect(() => {
     dispatch(fetchCategories());

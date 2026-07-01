@@ -21,9 +21,8 @@ export const fetchTopSales = createAsyncThunk<
 >('topSales/fetchTopSales', async (_, { rejectWithValue }) => {
   try {
     return await api.getTopSales();
-  } catch (err) {
-    const message =
-      err instanceof Error ? err.message : 'Ошибка загрузки хитов продаж';
+  } catch {
+    const message = 'Произошла ошибка при загрузке хитов продаж';
     return rejectWithValue(message);
   }
 });

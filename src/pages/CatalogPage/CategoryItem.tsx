@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import type { Category } from '../../types';
 
 type CategoryItemProps = Category & {
@@ -6,11 +6,18 @@ type CategoryItemProps = Category & {
 };
 
 const CategoryItem = ({ id, title, isActive }: CategoryItemProps) => {
+  const [searchParams] = useSearchParams();
+  const q = searchParams.get('q');
+
   const createLinkParams = () => {
     const params = new URLSearchParams();
+    if (q) {
+      params.set('q', q);
+    }
     if (id !== null) {
       params.set('categoryId', String(id));
     }
+
     return params.toString();
   };
 
